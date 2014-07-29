@@ -1,6 +1,12 @@
 package org.cghr.barshi.component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.cghr.barshi.DashboardHomeUI;
 import org.cghr.barshi.dao.TeamDAO;
@@ -35,15 +41,41 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.themes.Reindeer;
 
 public class TeamComponents {
-	private Team team = null;
+	Button saveButton = null;
 	
-	private Table getSurveyorTable(Team team) {
+	private Set<Team> modifiedTeamSet = new HashSet<Team>();
+	
+	private Table getSurveyorTable(final Team team) {
 		SurveyorComponents surveyorComponents = new SurveyorComponents();
 		
-		Table surveyorTable = surveyorComponents.getSurveyorTable(team.getSurveyors(), true, false, "name");
+		Table surveyorTable = surveyorComponents.getSurveyorTable(team.getSurveyors(), false, false, "name");
 		surveyorTable.setWidth("200px");
 		surveyorTable.setHeight("200px");
-
+		
+		surveyorTable.addGeneratedColumn("remove", new Table.ColumnGenerator() {
+			@Override
+			public Object generateCell(final Table source, final Object itemId, Object columnId) {
+				final User surveyor = (User) itemId;
+				
+				Button removeButton = new Button("Remove");
+				removeButton.addClickListener(new Button.ClickListener() {
+					@Override
+					public void buttonClick(ClickEvent event) {
+						team.removeSurveyor(surveyor);
+						source.removeItem(itemId);
+						setTeamModified(team);
+					}
+				});
+				
+				return removeButton;
+			}
+		});
+		
+		List<Object> visibleColumnsList = new ArrayList<Object>();
+		visibleColumnsList.addAll(Arrays.asList(surveyorTable.getVisibleColumns()));
+//		visibleColumnsList.add("remove");
+		surveyorTable.setVisibleColumns(visibleColumnsList.toArray());
+		
 		surveyorTable.setDropHandler(new DropHandler() {
 			@Override
 			public AcceptCriterion getAcceptCriterion() {
@@ -75,19 +107,45 @@ public class TeamComponents {
 					}
 				}
 				
+				team.addSurveyor(incomingUser);
+				setTeamModified(team);
 				surveyorTable.addItem(incomingUser);
 			}
 		});
 		return surveyorTable;
 	}
 	
-	private Table getAreaTable(Team team) {
+	private void setTeamModified(Team team) {
+		saveButton.setVisible(true);
+		modifiedTeamSet.add(team);
+	}
+	
+	private Table getAreaTable(final Team team) {
 		AreaComponents areaComponents = new AreaComponents();
 		
 		Table areaTable = new Table();
-		areaTable = areaComponents.getAreaTable(team.getAreas(), true, false, "id", "name", "landmark");
+		areaTable = areaComponents.getAreaTable(team.getAreas(), false, false, "id", "name", "landmark");
 		areaTable.setWidth("500px");
 		areaTable.setHeight("200px");
+		
+		areaTable.addGeneratedColumn("remove", new Table.ColumnGenerator() {
+			@Override
+			public Object generateCell(final Table source, final Object itemId, Object columnId) {
+				final Area area = (Area) itemId;
+				Button removeButton = new Button("Remove");
+				
+				removeButton.addClickListener(new Button.ClickListener() {
+					@Override
+					public void buttonClick(ClickEvent event) {
+						team.removeArea(area);
+						source.removeItem(itemId);
+						setTeamModified(team);
+					}
+				});
+				
+				return removeButton;
+			}
+		});
 
 		areaTable.setDropHandler(new DropHandler() {
 			@Override
@@ -120,6 +178,8 @@ public class TeamComponents {
 					}
 				}
 				
+				team.addArea(incomingArea);
+				setTeamModified(team);
 				areaTable.addItem(incomingArea);
 			}
 		});
@@ -205,11 +265,29 @@ public class TeamComponents {
 			}
 		});
 		
+		saveButton = new Button("Save");
+		saveButton.setVisible(false);
+		
+		saveButton.addClickListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(ClickEvent event) {
+				for(Team team : modifiedTeamSet) {
+					TeamDAO.getInstance().update(team);
+				}
+				
+				modifiedTeamSet.clear();
+				saveButton.setVisible(false);
+				Notification.show("Changes Saved!","",Notification.Type.TRAY_NOTIFICATION);
+			}
+		});
+		
 		HorizontalLayout headerLayout = new HorizontalLayout();
 		headerLayout.setSpacing(true);
 		headerLayout.addComponent(headerLabel);
 		headerLayout.addComponent(addButton);
+		headerLayout.addComponent(saveButton);
 		headerLayout.setComponentAlignment(addButton, Alignment.MIDDLE_LEFT);
+		headerLayout.setComponentAlignment(saveButton, Alignment.MIDDLE_LEFT);
 
 		List<Team> teamList = TeamDAO.getInstance().getAllTeams();
 
