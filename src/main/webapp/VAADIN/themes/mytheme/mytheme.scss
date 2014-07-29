@@ -1,0 +1,20 @@
+/* Import the reindeer theme. */
+/* This only allows us to use the mixins defined in it and does not add any styles by itself. */
+@import "../reindeer/legacy-styles.css";
+
+/* This contains all of your theme. */
+/* If somebody wants to extend the theme she will include this mixin. */
+@mixin mytheme {
+  /* Include all the styles from the reindeer theme */
+  /*@include reindeer;*/
+
+  /* Insert your theme rules here */
+  .v-table-cell-content {
+    vertical-align: middle;
+  }
+  
+  .v-verticallayout-sectioned {
+    background: none repeat scroll 0 0 #eee;
+    border: 1px solid black;
+  }
+}

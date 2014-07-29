@@ -1,0 +1,10 @@
+@import "../reindeer/legacy-styles.css";
+
+.mytheme .v-table-cell-content {
+	vertical-align: middle;
+}
+
+.mytheme .v-verticallayout-sectioned {
+	background: none repeat scroll 0 0 #eee;
+	border: 1px solid black;
+}
