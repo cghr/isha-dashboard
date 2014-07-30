@@ -1,4 +1,4 @@
-package org.cghr.barshi.entity;
+package org.cghr.barshi.db.data.entity;
 
 import java.util.HashSet;
 import java.util.Set;

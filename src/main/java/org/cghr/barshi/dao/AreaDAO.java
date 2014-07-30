@@ -8,7 +8,7 @@ import javax.persistence.Query;
 
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
 import org.cghr.barshi.db.JPAUtils;
-import org.cghr.barshi.entity.Area;
+import org.cghr.barshi.db.data.entity.Area;
 
 public class AreaDAO extends AbstractDatabaseDAO<Area> {
 	private static AreaDAO areaDao = null;

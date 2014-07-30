@@ -10,9 +10,9 @@ import java.util.Set;
 
 import org.cghr.barshi.DashboardHomeUI;
 import org.cghr.barshi.dao.TeamDAO;
-import org.cghr.barshi.entity.Area;
-import org.cghr.barshi.entity.Team;
-import org.cghr.barshi.entity.User;
+import org.cghr.barshi.db.data.entity.Area;
+import org.cghr.barshi.db.data.entity.Team;
+import org.cghr.barshi.db.data.entity.User;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;

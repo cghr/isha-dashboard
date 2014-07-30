@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
-import org.cghr.barshi.entity.Area;
+import org.cghr.barshi.db.data.entity.Area;
 
 public abstract class AbstractDatabaseDAO<T> implements DAO<T> {
 	T t;

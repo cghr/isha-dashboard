@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.cghr.barshi.DashboardHomeUI;
 import org.cghr.barshi.dao.UserDAO;
-import org.cghr.barshi.entity.User;
+import org.cghr.barshi.db.data.entity.User;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;

@@ -1,4 +1,4 @@
-package org.cghr.barshi.entity;
+package org.cghr.barshi.db.data.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

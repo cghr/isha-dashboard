@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import org.cghr.barshi.DashboardHomeUI;
 import org.cghr.barshi.dao.AreaDAO;
-import org.cghr.barshi.entity.Area;
+import org.cghr.barshi.db.data.entity.Area;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;

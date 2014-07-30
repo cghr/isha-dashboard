@@ -9,9 +9,9 @@
 		<description>Barshi Dashboard Classes</description>
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 
-		<class>org.cghr.barshi.entity.Area</class>
-		<class>org.cghr.barshi.entity.User</class>
-		<class>org.cghr.barshi.entity.Team</class>
+		<class>org.cghr.barshi.db.data.entity.Area</class>
+		<class>org.cghr.barshi.db.data.entity.User</class>
+		<class>org.cghr.barshi.db.data.entity.Team</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

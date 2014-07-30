@@ -7,7 +7,7 @@ import javax.persistence.Query;
 
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
 import org.cghr.barshi.db.JPAUtils;
-import org.cghr.barshi.entity.User;
+import org.cghr.barshi.db.data.entity.User;
 
 public class UserDAO extends AbstractDatabaseDAO<User> {
 	private static UserDAO userDao = null;

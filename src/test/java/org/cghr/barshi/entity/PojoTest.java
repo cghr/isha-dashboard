@@ -2,6 +2,8 @@ package org.cghr.barshi.entity;
 
 import java.util.HashSet;
 
+import org.cghr.barshi.db.data.entity.Area;
+import org.cghr.barshi.db.data.entity.User;
 import org.junit.Assert;
 import org.junit.Test;
 

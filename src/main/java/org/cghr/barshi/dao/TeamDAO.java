@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
-import org.cghr.barshi.entity.Team;
+import org.cghr.barshi.db.data.entity.Team;
 
 public class TeamDAO extends AbstractDatabaseDAO<Team> {
 	
