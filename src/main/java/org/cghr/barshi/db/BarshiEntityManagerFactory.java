@@ -7,7 +7,8 @@ import javax.persistence.Persistence;
 public class BarshiEntityManagerFactory {
 	private static BarshiEntityManagerFactory barshiEntityManagerFactory = null;
 	
-	private static EntityManagerFactory entityManagerFactory = null;
+	private static EntityManagerFactory dataEntityManagerFactory = null;
+	private static EntityManagerFactory reportsEntityManagerFactory = null;
 	
 	private BarshiEntityManagerFactory() {
 		super();
@@ -21,12 +22,21 @@ public class BarshiEntityManagerFactory {
 		return barshiEntityManagerFactory;
 	}
 	
-	public EntityManager createEntityManager() {
-		if(entityManagerFactory == null) {
-			entityManagerFactory = Persistence.createEntityManagerFactory("barshi-dashboard");
+	public EntityManager createDataEntityManager() {
+		if(dataEntityManagerFactory == null) {
+			dataEntityManagerFactory = Persistence.createEntityManagerFactory("barshi-data");
 		}
 		
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityManager entityManager = dataEntityManagerFactory.createEntityManager();
+		return entityManager;
+	}
+	
+	public EntityManager createReportsEntityManager() {
+		if(reportsEntityManagerFactory == null) {
+			reportsEntityManagerFactory = Persistence.createEntityManagerFactory("barshi-data");
+		}
+		
+		EntityManager entityManager = reportsEntityManagerFactory.createEntityManager();
 		return entityManager;
 	}
 }

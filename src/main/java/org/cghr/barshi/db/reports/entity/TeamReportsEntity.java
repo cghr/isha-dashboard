@@ -1,10 +1,11 @@
-package org.cghr.barshi.db.data.entity;
+package org.cghr.barshi.db.reports.entity;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -13,37 +14,40 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.cghr.barshi.db.entity.Team;
+import org.cghr.barshi.db.entityinterface.TeamInterface;
+
 @Entity
-@Table(name = "team")
-public class Team {
+@Table(name = "rep_team")
+public class TeamReportsEntity {
 	@Id
 	@Column(name = "id")
 	private Integer id = null;
-
-	@Column(name = "name")
-	private String name = null;
+	
+	@Embedded
+	private Team team = new Team();
 
 	@OneToMany( cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-	@JoinTable(name = "teamuser", joinColumns = {
+	@JoinTable(name = "rep_teamuser", joinColumns = {
 		@JoinColumn(name = "teamId", referencedColumnName = "id")
 	}, inverseJoinColumns = {
 		@JoinColumn(name = "userId", referencedColumnName = "id")
 	})
-	private HashSet<User> surveyors = null;
+	private HashSet<UserReportsEntity> surveyors = null;
 	
 	@OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "assignment", joinColumns = {
+	@JoinTable(name = "rep_assignment", joinColumns = {
 			@JoinColumn(name = "teamId", referencedColumnName = "id")
 	}, inverseJoinColumns = {
 			@JoinColumn(name = "areaId", referencedColumnName = "areaId")
 	})
-	private HashSet<Area> areas = null;
+	private HashSet<AreaReportsEntity> areas = null;
 	
-	protected Team() {
+	protected TeamReportsEntity() {
 		super();
 	}
 	
-	public Team(int id) {
+	public TeamReportsEntity(int id) {
 		this.id = id;
 	}
 
@@ -56,23 +60,23 @@ public class Team {
 	}
 
 	public String getName() {
-		return name;
+		return team.getName();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		team.setName(name);
 	}
 	
-	public void addSurveyor(User surveyor) {
+	public void addSurveyor(UserReportsEntity surveyor) {
 		surveyors.add(surveyor);
 	}
 	
-	public void removeSurveyor(User surveyor) {
+	public void removeSurveyor(UserReportsEntity surveyor) {
 		surveyors.remove(surveyor);
 	}
 	
-	public Set<User> getSurveyors() {
-		HashSet<User> surveyorSet = new HashSet<User>();
+	public Set<UserReportsEntity> getSurveyors() {
+		HashSet<UserReportsEntity> surveyorSet = new HashSet<UserReportsEntity>();
 		
 		if(surveyors != null) {
 			surveyorSet.addAll(surveyors);
@@ -81,16 +85,16 @@ public class Team {
 		return surveyorSet;
 	}
 	
-	public void addArea(Area area) {
+	public void addArea(AreaReportsEntity area) {
 		areas.add(area);
 	}
 	
-	public void removeArea(Area area) {
+	public void removeArea(AreaReportsEntity area) {
 		areas.remove(area);
 	}
 	
-	public Set<Area> getAreas() {
-		HashSet<Area> areaSet = new HashSet<Area>();
+	public Set<AreaReportsEntity> getAreas() {
+		HashSet<AreaReportsEntity> areaSet = new HashSet<AreaReportsEntity>();
 		
 		if(areas != null) {
 			areaSet.addAll(areas);

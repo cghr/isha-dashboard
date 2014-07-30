@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.cghr.barshi.DashboardHomeUI;
-import org.cghr.barshi.dao.UserDAO;
-import org.cghr.barshi.db.data.entity.User;
+import org.cghr.barshi.dao.UserDataDAO;
+import org.cghr.barshi.db.data.entity.UserDataEntity;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -42,7 +42,7 @@ public class SurveyorComponents {
 		addSurveyorButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				final User newUser = new User(UserDAO.getInstance().getNewUserId());
+				final UserDataEntity newUser = new UserDataEntity(UserDataDAO.getInstance().getNewUserId());
 				newUser.setName("");
 				newUser.setUsername("");
 				newUser.setClearPassword("");
@@ -63,7 +63,7 @@ public class SurveyorComponents {
 				addUserWindow.addCloseListener(new Window.CloseListener() {
 					@Override
 					public void windowClose(CloseEvent e) {
-						if (UserDAO.getInstance().read(newUser.getId()) != null) {
+						if (UserDataDAO.getInstance().read(newUser.getId()) != null) {
 							surveyorTable.addItem(newUser);
 						}
 					}
@@ -78,7 +78,7 @@ public class SurveyorComponents {
 		surveyorHeaderLayout.setComponentAlignment(addSurveyorButton, Alignment.BOTTOM_LEFT);
 
 		// surveyorTable = getSurveyorTable();
-		List<User> userList = UserDAO.getInstance().getAllUsers();
+		List<UserDataEntity> userList = UserDataDAO.getInstance().getAllUsers();
 		surveyorTable = getSurveyorTable(userList, false, true, "id", "name", "role");
 		surveyorTable.setDragMode(Table.TableDragMode.MULTIROW);
 		surveyorTable.setSizeFull();
@@ -105,8 +105,8 @@ public class SurveyorComponents {
 	 *            Whether to add a Generated Column with "Remove" Button
 	 * @return The table containing the list of surveyors as provided.
 	 */
-	public Table getSurveyorTable(Collection<User> userCollection, boolean showRemoveColumn, boolean showEditColumn, String... visibleColumns) {
-		BeanItemContainer<User> userContainer = new BeanItemContainer<User>(User.class);
+	public Table getSurveyorTable(Collection<UserDataEntity> userCollection, boolean showRemoveColumn, boolean showEditColumn, String... visibleColumns) {
+		BeanItemContainer<UserDataEntity> userContainer = new BeanItemContainer<UserDataEntity>(UserDataEntity.class);
 		userContainer.addAll(userCollection);
 
 		surveyorTable = new Table();
@@ -138,7 +138,7 @@ public class SurveyorComponents {
 					editButton.addClickListener(new Button.ClickListener() {
 						@Override
 						public void buttonClick(ClickEvent event) {
-							User user = (User) itemId;
+							UserDataEntity user = (UserDataEntity) itemId;
 							user.setClearPassword("");
 
 							Component editUserComponent = getEditSurveyorComponent(user);
@@ -190,13 +190,13 @@ public class SurveyorComponents {
 		return surveyorTable;
 	}
 
-	private Component getEditSurveyorComponent(final User user) {
+	private Component getEditSurveyorComponent(final UserDataEntity user) {
 		Item item = null;
 
 		if (surveyorTable.getItem(user) != null) {
 			item = surveyorTable.getItem(user);
 		} else {
-			item = new BeanItem<User>(user);
+			item = new BeanItem<UserDataEntity>(user);
 		}
 
 		final FieldGroup userFieldGroup = new FieldGroup();
@@ -242,11 +242,13 @@ public class SurveyorComponents {
 					Notification.show("Input Error!", "Name must be contain at least 4 letters", Notification.Type.ERROR_MESSAGE);
 				} else if (usernameField.getValue().length() <= 3) {
 					Notification.show("Input Error!", "Username must contain at least 4 letters", Notification.Type.ERROR_MESSAGE);
+				} else if(passwordField.getValue() != null && passwordField.getValue().trim().length() > 0 && passwordField.getValue().equals(repasswordField.getValue())) {
+					Notification.show("Input Error!", "Passwords do not match", Notification.Type.ERROR_MESSAGE);
 				} else {
 					try {
 						userFieldGroup.commit();
 
-						UserDAO.getInstance().update(user);
+						UserDataDAO.getInstance().update(user);
 						Notification.show("Success!", "User \"" + user.getName() + "\" with id " + user.getId() + " was saved successfully", Notification.Type.HUMANIZED_MESSAGE);
 					} catch (CommitException e) {
 						// TODO Auto-generated catch block

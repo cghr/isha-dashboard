@@ -5,13 +5,34 @@
  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
 
-	<persistence-unit name="barshi-dashboard">
-		<description>Barshi Dashboard Classes</description>
+	<persistence-unit name="barshi-data">
+		<description>Barshi Data Entities</description>
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 
-		<class>org.cghr.barshi.db.data.entity.Area</class>
-		<class>org.cghr.barshi.db.data.entity.User</class>
-		<class>org.cghr.barshi.db.data.entity.Team</class>
+		<class>org.cghr.barshi.db.data.entity.AreaDataEntity</class>
+		<class>org.cghr.barshi.db.data.entity.UserDataEntity</class>
+		<class>org.cghr.barshi.db.data.entity.TeamDataEntity</class>
+		
+		<class>org.cghr.barshi.db.entity.Area</class>
+		<class>org.cghr.barshi.db.entity.User</class>
+		<class>org.cghr.barshi.db.entity.Team</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/barshi" />
+			<property name="javax.persistence.jdbc.user" value="barshi" />
+			<property name="javax.persistence.jdbc.password" value="aLxfKjaaD38Cz4DX" />
+			<property name="openjpa.jdbc.DriverDataSource" value="dbcp" />
+		</properties>
+	</persistence-unit>
+	
+	<persistence-unit name="barshi-dashboard">
+		<description>Barshi Dashboard Entities</description>
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+
+		<class>org.cghr.barshi.db.entity.Area</class>
+		<class>org.cghr.barshi.db.entity.User</class>
+		<class>org.cghr.barshi.db.entity.Team</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

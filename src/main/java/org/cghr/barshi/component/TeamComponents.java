@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.cghr.barshi.DashboardHomeUI;
-import org.cghr.barshi.dao.TeamDAO;
-import org.cghr.barshi.db.data.entity.Area;
-import org.cghr.barshi.db.data.entity.Team;
-import org.cghr.barshi.db.data.entity.User;
+import org.cghr.barshi.dao.TeamDataDAO;
+import org.cghr.barshi.db.data.entity.AreaDataEntity;
+import org.cghr.barshi.db.data.entity.TeamDataEntity;
+import org.cghr.barshi.db.data.entity.UserDataEntity;
 
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -44,9 +44,9 @@ import com.vaadin.ui.themes.Reindeer;
 public class TeamComponents {
 	Button saveButton = null;
 	
-	private Set<Team> modifiedTeamSet = new HashSet<Team>();
+	private Set<TeamDataEntity> modifiedTeamSet = new HashSet<TeamDataEntity>();
 	
-	private Table getSurveyorTable(final Team team) {
+	private Table getSurveyorTable(final TeamDataEntity team) {
 		SurveyorComponents surveyorComponents = new SurveyorComponents();
 		
 		Table surveyorTable = surveyorComponents.getSurveyorTable(team.getSurveyors(), false, false, "name");
@@ -56,7 +56,7 @@ public class TeamComponents {
 		surveyorTable.addGeneratedColumn("remove", new Table.ColumnGenerator() {
 			@Override
 			public Object generateCell(final Table source, final Object itemId, Object columnId) {
-				final User surveyor = (User) itemId;
+				final UserDataEntity surveyor = (UserDataEntity) itemId;
 				
 				Button removeButton = new Button("Remove");
 				removeButton.addClickListener(new Button.ClickListener() {
@@ -86,7 +86,7 @@ public class TeamComponents {
 					public boolean accept(DragAndDropEvent dragEvent) {
 						Transferable transferable = dragEvent.getTransferable();
 						Object itemId = transferable.getData("itemId");
-						if (itemId instanceof User && ((User) itemId).getRole().contains("user")) {
+						if (itemId instanceof UserDataEntity && ((UserDataEntity) itemId).getRole().contains("user")) {
 							return true;
 						} else {
 							return false;
@@ -98,11 +98,11 @@ public class TeamComponents {
 			@Override
 			public void drop(DragAndDropEvent event) {
 				Transferable transferable = event.getTransferable();
-				User incomingUser = (User) transferable.getData("itemId");
+				UserDataEntity incomingUser = (UserDataEntity) transferable.getData("itemId");
 				Table surveyorTable = (Table) event.getTargetDetails().getTarget();
 
-				BeanItemContainer<User> userContainer = (BeanItemContainer<User>) surveyorTable.getContainerDataSource();
-				for(User user : userContainer.getItemIds()) {
+				BeanItemContainer<UserDataEntity> userContainer = (BeanItemContainer<UserDataEntity>) surveyorTable.getContainerDataSource();
+				for(UserDataEntity user : userContainer.getItemIds()) {
 					if(user.getId().equals(incomingUser.getId())) {
 						return;
 					}
@@ -116,12 +116,12 @@ public class TeamComponents {
 		return surveyorTable;
 	}
 	
-	private void setTeamModified(Team team) {
+	private void setTeamModified(TeamDataEntity team) {
 		saveButton.setVisible(true);
 		modifiedTeamSet.add(team);
 	}
 	
-	private Table getAreaTable(final Team team) {
+	private Table getAreaTable(final TeamDataEntity team) {
 		AreaComponents areaComponents = new AreaComponents();
 		
 		Table areaTable = new Table();
@@ -132,7 +132,7 @@ public class TeamComponents {
 		areaTable.addGeneratedColumn("remove", new Table.ColumnGenerator() {
 			@Override
 			public Object generateCell(final Table source, final Object itemId, Object columnId) {
-				final Area area = (Area) itemId;
+				final AreaDataEntity area = (AreaDataEntity) itemId;
 				Button removeButton = new Button("Remove");
 				
 				removeButton.addClickListener(new Button.ClickListener() {
@@ -157,7 +157,7 @@ public class TeamComponents {
 					public boolean accept(DragAndDropEvent dragEvent) {
 						Transferable transferable = dragEvent.getTransferable();
 						Object itemId = transferable.getData("itemId");
-						if (itemId instanceof Area) {
+						if (itemId instanceof AreaDataEntity) {
 							return true;
 						} else {
 							return false;
@@ -169,11 +169,11 @@ public class TeamComponents {
 			@Override
 			public void drop(DragAndDropEvent event) {
 				Transferable transferable = event.getTransferable();
-				Area incomingArea = (Area) transferable.getData("itemId");
+				AreaDataEntity incomingArea = (AreaDataEntity) transferable.getData("itemId");
 				Table areaTable = (Table) event.getTargetDetails().getTarget();
 
-				BeanItemContainer<Area> areaContainer = (BeanItemContainer<Area>) areaTable.getContainerDataSource();
-				for(Area area : areaContainer.getItemIds()) {
+				BeanItemContainer<AreaDataEntity> areaContainer = (BeanItemContainer<AreaDataEntity>) areaTable.getContainerDataSource();
+				for(AreaDataEntity area : areaContainer.getItemIds()) {
 					if(area.getId().equals(incomingArea.getId())) {
 						return;
 					}
@@ -187,7 +187,7 @@ public class TeamComponents {
 		return areaTable;
 	}
 	
-	private Component getTeamComponent(Team team) {
+	private Component getTeamComponent(TeamDataEntity team) {
 		Label headerLabel = new Label(team.getName());
 		headerLabel.setStyleName(Reindeer.LABEL_H1);
 
@@ -241,7 +241,7 @@ public class TeamComponents {
 		addButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				final Team newTeam = new Team(TeamDAO.getInstance().getNewTeamId());
+				final TeamDataEntity newTeam = new TeamDataEntity(TeamDataDAO.getInstance().getNewTeamId());
 				newTeam.setName("");
 				Component editTeamComponent = getEditTeamComponent(newTeam);
 				
@@ -254,7 +254,7 @@ public class TeamComponents {
 				addTeamWindow.addCloseListener(new Window.CloseListener() {
 					@Override
 					public void windowClose(CloseEvent e) {
-						Team team = TeamDAO.getInstance().read(newTeam.getId());
+						TeamDataEntity team = TeamDataDAO.getInstance().read(newTeam.getId());
 						if(team != null) {
 							Component teamComponent = getTeamComponent(newTeam);
 							teamComponentsLayout.addComponent(teamComponent);
@@ -272,8 +272,8 @@ public class TeamComponents {
 		saveButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				for(Team team : modifiedTeamSet) {
-					TeamDAO.getInstance().update(team);
+				for(TeamDataEntity team : modifiedTeamSet) {
+					TeamDataDAO.getInstance().update(team);
 				}
 				
 				modifiedTeamSet.clear();
@@ -290,9 +290,9 @@ public class TeamComponents {
 		headerLayout.setComponentAlignment(addButton, Alignment.MIDDLE_LEFT);
 		headerLayout.setComponentAlignment(saveButton, Alignment.MIDDLE_LEFT);
 
-		List<Team> teamList = TeamDAO.getInstance().getAllTeams();
+		List<TeamDataEntity> teamList = TeamDataDAO.getInstance().getAllTeams();
 
-		for (Team team : teamList) {
+		for (TeamDataEntity team : teamList) {
 			Component teamComponent = getTeamComponent(team);
 			teamComponentsLayout.addComponent(teamComponent);
 		}
@@ -305,8 +305,8 @@ public class TeamComponents {
 	}
 
 
-	private Component getEditTeamComponent(final Team team) {
-		BeanItem<Team> teamBeanItem = new BeanItem<Team>(team);
+	private Component getEditTeamComponent(final TeamDataEntity team) {
+		BeanItem<TeamDataEntity> teamBeanItem = new BeanItem<TeamDataEntity>(team);
 		
 		final FieldGroup editTeamFieldGroup = new FieldGroup(teamBeanItem);
 		
@@ -331,7 +331,7 @@ public class TeamComponents {
 					try {
 						editTeamFieldGroup.commit();
 						
-						TeamDAO.getInstance().update(team);
+						TeamDataDAO.getInstance().update(team);
 						
 						Notification.show("Success!", "Team \"" + team.getId() + "\"  with id " + team.getId() + " created successfully", Notification.Type.HUMANIZED_MESSAGE);
 					} catch (CommitException e) {

@@ -8,14 +8,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
-import org.cghr.barshi.db.data.entity.Area;
+import org.cghr.barshi.db.data.entity.AreaDataEntity;
 
 public abstract class AbstractDatabaseDAO<T> implements DAO<T> {
 	T t;
 
 	@Override
 	public void create(T entity) {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 		
@@ -30,7 +30,7 @@ public abstract class AbstractDatabaseDAO<T> implements DAO<T> {
 
 	@Override
 	public T read(Object id) {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 		
 		Class clazz = null;
 		clazz = this.getGenericClass();
@@ -48,7 +48,7 @@ public abstract class AbstractDatabaseDAO<T> implements DAO<T> {
 
 	@Override
 	public void update(T entity) {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 		
@@ -65,7 +65,7 @@ public abstract class AbstractDatabaseDAO<T> implements DAO<T> {
 
 	@Override
 	public void delete(Object id) {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 

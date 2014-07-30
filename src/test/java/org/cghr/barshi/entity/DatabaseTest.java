@@ -8,13 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
-import org.cghr.barshi.dao.TeamDAO;
-import org.cghr.barshi.dao.UserDAO;
+import org.cghr.barshi.dao.TeamDataDAO;
+import org.cghr.barshi.dao.UserDataDAO;
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
 import org.cghr.barshi.db.JPAUtils;
-import org.cghr.barshi.db.data.entity.Area;
-import org.cghr.barshi.db.data.entity.Team;
-import org.cghr.barshi.db.data.entity.User;
+import org.cghr.barshi.db.data.entity.AreaDataEntity;
+import org.cghr.barshi.db.data.entity.TeamDataEntity;
+import org.cghr.barshi.db.data.entity.UserDataEntity;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,14 +25,14 @@ public class DatabaseTest {
 	
 	@Before
 	public void setup() {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		transaction.begin();
 
-		userId = UserDAO.getInstance().getNewUserId();
-		User user = new User(userId);
+		userId = UserDataDAO.getInstance().getNewUserId();
+		UserDataEntity user = new UserDataEntity(userId);
 
 		user.setName("Sagar");
 		user.setUsername("sagpatke");
@@ -48,12 +48,12 @@ public class DatabaseTest {
 
 	@Test
 	public void testJPAConnectivity() {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 
-		TypedQuery<Area> query = entityManager.createQuery("SELECT a FROM Area a", Area.class);
+		TypedQuery<AreaDataEntity> query = entityManager.createQuery("SELECT a FROM AreaDataEntity a", AreaDataEntity.class);
 		JPAUtils.getInstance().setEager(query);
 
-		List<Area> areaList = query.getResultList();
+		List<AreaDataEntity> areaList = query.getResultList();
 		entityManager.close();
 
 		Assert.assertNotNull(areaList);
@@ -62,13 +62,13 @@ public class DatabaseTest {
 
 	@Test
 	public void testEquality() {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 		
 		transaction.begin();
 
-		User expectedUser = new User(userId);
+		UserDataEntity expectedUser = new UserDataEntity(userId);
 		expectedUser.setName("Ravi");
 		expectedUser.setUsername("ravitez");
 		expectedUser.setClearPassword("Ravi's Password");
@@ -78,7 +78,7 @@ public class DatabaseTest {
 		
 		transaction.commit();
 		
-		User actualUser = entityManager.find(User.class, userId);
+		UserDataEntity actualUser = entityManager.find(UserDataEntity.class, userId);
 		
 		entityManager.detach(actualUser);
 		
@@ -89,21 +89,21 @@ public class DatabaseTest {
 	
 	@Test
 	public void testTeamJPA() {
-		List<Team> teamList = TeamDAO.getInstance().getAllTeams();
+		List<TeamDataEntity> teamList = TeamDataDAO.getInstance().getAllTeams();
 		
 		Assert.assertNotNull(teamList);
 		Assert.assertNotEquals(teamList.size(), 0);
 		
-		for(Team team : teamList) {
-			Set<User> surveyors = team.getSurveyors();
+		for(TeamDataEntity team : teamList) {
+			Set<UserDataEntity> surveyors = team.getSurveyors();
 			System.out.println("Team: " + team.getName());
-			for(User surveyor : surveyors) {
+			for(UserDataEntity surveyor : surveyors) {
 				System.out.println("|- " + surveyor.getUsername());
 			}
 			
-			Set <Area> areas = team.getAreas();
+			Set <AreaDataEntity> areas = team.getAreas();
 			System.out.println("Team: " + team.getName());
-			for(Area area : areas) {
+			for(AreaDataEntity area : areas) {
 				System.out.println("|- " + area.getName());
 			}
 		}
@@ -111,13 +111,13 @@ public class DatabaseTest {
 	
 	@After
 	public void cleanup() {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createEntityManager();
+		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 		
 		transaction.begin();
 		
-		User user = entityManager.find(User.class, userId);
+		UserDataEntity user = entityManager.find(UserDataEntity.class, userId);
 		
 		entityManager.remove(user);
 		

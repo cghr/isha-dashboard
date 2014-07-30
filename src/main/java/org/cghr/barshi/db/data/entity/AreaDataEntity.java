@@ -1,31 +1,29 @@
 package org.cghr.barshi.db.data.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.cghr.barshi.db.entity.Area;
+import org.cghr.barshi.db.entityinterface.AreaInterface;
+
 @Entity
 @Table(name = "area")
-public class Area {
+public class AreaDataEntity implements AreaInterface {
 	@Id
 	@Column(name = "areaId")
 	private Integer id = null;
 
-	@Column(name = "name")
-	private String name = null;
-
-	@Column(name = "landmark")
-	private String landmark = null;
-
-	@Column(name = "pincode")
-	private String pincode = null;
+	@Embedded
+	private Area area = new Area();
 	
-	protected Area() {
+	protected AreaDataEntity() {
 		super();
 	}
 	
-	public Area(int id) {
+	public AreaDataEntity(int id) {
 		this.id = id;
 	}
 
@@ -33,28 +31,34 @@ public class Area {
 		return id;
 	}
 
+	@Override
 	public String getName() {
-		return name;
+		return area.getName();
 	}
 
+	@Override
 	public void setName(String name) {
-		this.name = name;
+		area.setName(name);
 	}
 
+	@Override
 	public String getLandmark() {
-		return landmark;
+		return area.getLandmark();
 	}
 
+	@Override
 	public void setLandmark(String landmark) {
-		this.landmark = landmark;
+		area.setLandmark(landmark);
 	}
 
+	@Override
 	public String getPincode() {
-		return pincode;
+		return area.getPincode();
 	}
 
+	@Override
 	public void setPincode(String pincode) {
-		this.pincode = pincode;
+		area.setPincode(pincode);
 	}
 	
 	@Override
@@ -62,9 +66,13 @@ public class Area {
 		return this.id;
 	}
 	
+	private Area getArea() {
+		return area;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Area && ((Area) obj).getId() == getId()) {
+		if (obj instanceof AreaDataEntity && ((AreaDataEntity) obj).getId() == getId()) {
 			return true;
 		} else {
 			return false;

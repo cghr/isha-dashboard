@@ -8,8 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.cghr.barshi.DashboardHomeUI;
-import org.cghr.barshi.dao.AreaDAO;
-import org.cghr.barshi.db.data.entity.Area;
+import org.cghr.barshi.dao.AreaDataDAO;
+import org.cghr.barshi.db.data.entity.AreaDataEntity;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -43,7 +43,7 @@ public class AreaComponents {
 		addAreaButton.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				final Area newArea = new Area(AreaDAO.getInstance().getNewAreaId());
+				final AreaDataEntity newArea = new AreaDataEntity(AreaDataDAO.getInstance().getNewAreaId());
 				newArea.setName("");
 				newArea.setLandmark("");
 				newArea.setPincode("");
@@ -63,7 +63,7 @@ public class AreaComponents {
 				addAreaWindow.addCloseListener(new Window.CloseListener() {
 					@Override
 					public void windowClose(CloseEvent e) {
-						if (AreaDAO.getInstance().read(newArea.getId()) != null) {
+						if (AreaDataDAO.getInstance().read(newArea.getId()) != null) {
 							areaTable.addItem(newArea);
 						}
 					}
@@ -77,7 +77,7 @@ public class AreaComponents {
 		areaHeaderLayout.addComponent(addAreaButton);
 		areaHeaderLayout.setComponentAlignment(addAreaButton, Alignment.BOTTOM_LEFT);
 
-		List<Area> areasList = AreaDAO.getInstance().getAllAreas();
+		List<AreaDataEntity> areasList = AreaDataDAO.getInstance().getAllAreas();
 		areaTable = getAreaTable(areasList, false, true, "id", "name", "landmark", "pincode");
 		areaTable.setDragMode(Table.TableDragMode.MULTIROW);
 		areaTable.setSizeFull();
@@ -92,8 +92,8 @@ public class AreaComponents {
 		return areaVerticalLayout;
 	}
 	
-	public Table getAreaTable(Collection<Area> areaCollection, boolean showRemoveColumn, boolean showEditColumn, String... visibleColumns) {
-		BeanItemContainer<Area> areaContainer = new BeanItemContainer<Area>(Area.class);
+	public Table getAreaTable(Collection<AreaDataEntity> areaCollection, boolean showRemoveColumn, boolean showEditColumn, String... visibleColumns) {
+		BeanItemContainer<AreaDataEntity> areaContainer = new BeanItemContainer<AreaDataEntity>(AreaDataEntity.class);
 		areaContainer.addAll(areaCollection);
 
 		areaTable = new Table();
@@ -126,7 +126,7 @@ public class AreaComponents {
 					editButton.addClickListener(new Button.ClickListener() {
 						@Override
 						public void buttonClick(ClickEvent event) {
-							Area area = (Area) itemId;
+							AreaDataEntity area = (AreaDataEntity) itemId;
 
 							Component editAreaComponent = getEditAreaComponent(area);
 
@@ -171,13 +171,13 @@ public class AreaComponents {
 		return areaTable;
 	}
 	
-	private Component getEditAreaComponent(final Area area) {
+	private Component getEditAreaComponent(final AreaDataEntity area) {
 		Item item = null;
 
 		if (areaTable.getItem(area) != null) {
 			item = areaTable.getItem(area);
 		} else {
-			item = new BeanItem<Area>(area);
+			item = new BeanItem<AreaDataEntity>(area);
 		}
 
 		final FieldGroup areaFieldGroup = new FieldGroup();
@@ -222,7 +222,7 @@ public class AreaComponents {
 					try {
 						areaFieldGroup.commit();
 
-						AreaDAO.getInstance().update(area);
+						AreaDataDAO.getInstance().update(area);
 						Notification.show("Success!", "Area \"" + area.getName() + "\" with ID " + area.getId() + " created successfully", Notification.Type.HUMANIZED_MESSAGE);
 					} catch (CommitException e) {
 						e.printStackTrace();
