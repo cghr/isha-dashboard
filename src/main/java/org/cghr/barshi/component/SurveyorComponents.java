@@ -50,7 +50,7 @@ public class SurveyorComponents {
 
 				Component editUserComponent = getEditSurveyorComponent(newUser);
 
-				Window addUserWindow = new Window("Add User");
+				Window addUserWindow = new Window("Add Surveyor");
 				addUserWindow.setModal(true);
 				addUserWindow.setResizable(false);
 				addUserWindow.setDraggable(false);
@@ -242,7 +242,7 @@ public class SurveyorComponents {
 					Notification.show("Input Error!", "Name must be contain at least 4 letters", Notification.Type.ERROR_MESSAGE);
 				} else if (usernameField.getValue().length() <= 3) {
 					Notification.show("Input Error!", "Username must contain at least 4 letters", Notification.Type.ERROR_MESSAGE);
-				} else if(passwordField.getValue() != null && passwordField.getValue().trim().length() > 0 && passwordField.getValue().equals(repasswordField.getValue())) {
+				} else if(passwordField.getValue() != null && passwordField.getValue().trim().length() > 0 && !passwordField.getValue().equals(repasswordField.getValue())) {
 					Notification.show("Input Error!", "Passwords do not match", Notification.Type.ERROR_MESSAGE);
 				} else {
 					try {
