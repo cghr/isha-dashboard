@@ -26,16 +26,6 @@ public class DashboardHomeUI extends UI {
 	private Table areaTable = null;
 	private Table surveyorTable = null;
 	
-	private static UI parentUi = null;
-	
-	private static void setParentUI(UI ui) {
-		parentUi = ui;
-	}
-	
-	public static void showWindow(Window window) {
-		parentUi.addWindow(window);
-	}
-	
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = DashboardHomeUI.class, widgetset = "org.cghr.barshi.AppWidgetSet")
 	public static class Servlet extends VaadinServlet {}
@@ -45,7 +35,6 @@ public class DashboardHomeUI extends UI {
 	 */
 	@Override
 	protected void init(VaadinRequest request) {
-		setParentUI(this);
 		MenuBar menuBar = new MenuBar();
 		menuBar.setWidth("100%");
 		menuBar.setImmediate(true);

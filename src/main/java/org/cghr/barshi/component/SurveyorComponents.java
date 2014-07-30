@@ -25,6 +25,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
@@ -57,7 +58,7 @@ public class SurveyorComponents {
 
 				addUserWindow.setContent(editUserComponent);
 
-				DashboardHomeUI.showWindow(addUserWindow);
+				UI.getCurrent().addWindow(addUserWindow);
 
 				addUserWindow.addCloseListener(new Window.CloseListener() {
 					@Override
@@ -155,7 +156,7 @@ public class SurveyorComponents {
 
 							addUserWindow.setContent(containerLayout);
 
-							DashboardHomeUI.showWindow(addUserWindow);
+							UI.getCurrent().addWindow(addUserWindow);
 
 						}
 					});

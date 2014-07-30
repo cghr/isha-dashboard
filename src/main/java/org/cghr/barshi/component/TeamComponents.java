@@ -34,6 +34,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
@@ -261,7 +262,7 @@ public class TeamComponents {
 					}
 				});
 				
-				DashboardHomeUI.showWindow(addTeamWindow);
+				UI.getCurrent().addWindow(addTeamWindow);
 			}
 		});
 		
