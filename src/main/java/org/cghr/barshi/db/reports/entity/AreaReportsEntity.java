@@ -1,7 +1,10 @@
 package org.cghr.barshi.db.reports.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,10 +14,9 @@ import org.cghr.barshi.db.entityinterface.AreaInterface;
 
 @Entity
 @Table(name = "rep_area")
-public class AreaReportsEntity implements AreaInterface {
-	@Id
-	@Column(name = "areaId")
-	private Integer id = null;
+public class AreaReportsEntity {
+	@EmbeddedId
+	private ReportsId id = new ReportsId();
 
 	@Embedded
 	private Area area = new Area();
@@ -23,47 +25,38 @@ public class AreaReportsEntity implements AreaInterface {
 		super();
 	}
 	
-	public AreaReportsEntity(int id) {
-		this.id = id;
+	public AreaReportsEntity(int id, Date reportDate, Area area) {
+		this.id.setId(id);
+		this.id.setReportDate(reportDate);
+		this.area = area;
 	}
 
-	public Integer getId() {
-		return id;
+	public ReportsId getId() {
+		return this.id;
 	}
 
-	@Override
 	public String getName() {
 		return area.getName();
 	}
 
-	@Override
 	public void setName(String name) {
 		area.setName(name);
 	}
 
-	@Override
 	public String getLandmark() {
 		return area.getLandmark();
 	}
 
-	@Override
 	public void setLandmark(String landmark) {
 		area.setLandmark(landmark);
 	}
 
-	@Override
 	public String getPincode() {
 		return area.getPincode();
 	}
 
-	@Override
 	public void setPincode(String pincode) {
 		area.setPincode(pincode);
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.id;
 	}
 	
 	private Area getArea() {
@@ -71,9 +64,16 @@ public class AreaReportsEntity implements AreaInterface {
 	}
 	
 	@Override
+	public int hashCode() {
+		return this.id.hashCode();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AreaReportsEntity && ((AreaReportsEntity) obj).getId() == getId()) {
-			return true;
+		if(obj == null) {
+			return false;
+		} else if(obj instanceof AreaReportsEntity) {
+			return this.id.equals(((AreaReportsEntity) obj).getId());
 		} else {
 			return false;
 		}

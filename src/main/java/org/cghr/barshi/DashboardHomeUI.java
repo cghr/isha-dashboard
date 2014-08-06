@@ -1,24 +1,23 @@
 package org.cghr.barshi;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import javax.servlet.annotation.WebServlet;
 
 import org.cghr.barshi.command.AreaTeamManagementCommand;
-import org.cghr.barshi.component.AreaComponents;
-import org.cghr.barshi.component.SurveyorComponents;
-import org.cghr.barshi.component.TeamComponents;
+import org.cghr.barshi.command.DailyAttendanceFormCommand;
+import org.cghr.barshi.dao.TeamDataDAO;
+import org.cghr.barshi.db.data.entity.TeamDataEntity;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalSplitPanel;
-import com.vaadin.ui.Window;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
@@ -26,7 +25,7 @@ public class DashboardHomeUI extends UI {
 
 	private Table areaTable = null;
 	private Table surveyorTable = null;
-	
+
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = DashboardHomeUI.class, widgetset = "org.cghr.barshi.AppWidgetSet")
 	public static class Servlet extends VaadinServlet {}
@@ -42,6 +41,15 @@ public class DashboardHomeUI extends UI {
 
 		MenuBar.MenuItem administrationMenuItem = menuBar.addItem("Administration", null);
 		administrationMenuItem.addItem("Area / Team Management", new AreaTeamManagementCommand());
+
+		MenuBar.MenuItem teamMenuItem = menuBar.addItem("Teams", null);
+
+		for (TeamDataEntity team : TeamDataDAO.getInstance().getAllTeams()) {
+			MenuBar.MenuItem teamItem = teamMenuItem.addItem(team.getName(), null);
+			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("IST"));
+			Date date = calendar.getTime();
+			teamItem.addItem("Daily Attendance Form", new DailyAttendanceFormCommand(team, calendar.getTime()));
+		}
 
 		setContent(menuBar);
 	}

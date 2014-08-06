@@ -14,7 +14,7 @@ public class AreaDataDAO extends AbstractDatabaseDAO<AreaDataEntity> {
 	private static AreaDataDAO areaDao = null;
 	
 	private AreaDataDAO() {
-		super();
+		super("barshi-data");
 	}
 	
 	public static AreaDataDAO getInstance() {

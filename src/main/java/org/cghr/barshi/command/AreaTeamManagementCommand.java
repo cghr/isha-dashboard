@@ -1,8 +1,8 @@
 package org.cghr.barshi.command;
 
-import org.cghr.barshi.component.AreaComponents;
-import org.cghr.barshi.component.SurveyorComponents;
-import org.cghr.barshi.component.TeamComponents;
+import org.cghr.barshi.component.AreaComponentWrapper;
+import org.cghr.barshi.component.SurveyorComponentWrapper;
+import org.cghr.barshi.component.TeamComponentWrapper;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
@@ -15,11 +15,11 @@ import com.vaadin.ui.MenuBar.MenuItem;
 public class AreaTeamManagementCommand implements MenuBar.Command {
 	@Override
 	public void menuSelected(MenuItem selectedItem) {
-		SurveyorComponents surveyorComponents = new SurveyorComponents();
+		SurveyorComponentWrapper surveyorComponents = new SurveyorComponentWrapper();
 		Component manageSurveyorComponent = surveyorComponents.getSurveyorManagementComponent();
-		TeamComponents teamComponents = new TeamComponents();
+		TeamComponentWrapper teamComponents = new TeamComponentWrapper();
 		
-		AreaComponents areaComponents = new AreaComponents();
+		AreaComponentWrapper areaComponents = new AreaComponentWrapper();
 		Component manageAreaComponent = areaComponents.getAreaManagementComponent();
 		
 		VerticalSplitPanel verticalSplitPanel = new VerticalSplitPanel(manageSurveyorComponent, manageAreaComponent);

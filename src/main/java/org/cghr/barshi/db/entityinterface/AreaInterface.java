@@ -1,6 +1,8 @@
 package org.cghr.barshi.db.entityinterface;
 
 public interface AreaInterface {
+	public Integer getId();
+	
 	public String getName();
 
 	public void setName(String name);

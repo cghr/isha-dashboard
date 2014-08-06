@@ -13,7 +13,7 @@ public class TeamDataDAO extends AbstractDatabaseDAO<TeamDataEntity> {
 	private static TeamDataDAO teamDao = null;
 	
 	protected TeamDataDAO() {
-		super();
+		super("barshi-data");
 	}
 	
 	public static TeamDataDAO getInstance() {

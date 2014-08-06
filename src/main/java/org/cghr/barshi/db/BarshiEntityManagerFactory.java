@@ -33,10 +33,20 @@ public class BarshiEntityManagerFactory {
 	
 	public EntityManager createReportsEntityManager() {
 		if(reportsEntityManagerFactory == null) {
-			reportsEntityManagerFactory = Persistence.createEntityManagerFactory("barshi-data");
+			reportsEntityManagerFactory = Persistence.createEntityManagerFactory("barshi-dashboard");
 		}
 		
 		EntityManager entityManager = reportsEntityManagerFactory.createEntityManager();
 		return entityManager;
+	}
+	
+	public EntityManager createEntityManager(String unitName) {
+		if(unitName.equals("barshi-data")) {
+			return createDataEntityManager();
+		} else if(unitName.equals("barshi-dashboard")) {
+			return createReportsEntityManager();
+		} else {
+			throw new RuntimeException("Persistence Unit Name: " + unitName + " is not configured");
+		}
 	}
 }

@@ -8,14 +8,14 @@
 	<persistence-unit name="barshi-data">
 		<description>Barshi Data Entities</description>
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-
-		<class>org.cghr.barshi.db.data.entity.AreaDataEntity</class>
-		<class>org.cghr.barshi.db.data.entity.UserDataEntity</class>
-		<class>org.cghr.barshi.db.data.entity.TeamDataEntity</class>
 		
-		<class>org.cghr.barshi.db.entity.Area</class>
 		<class>org.cghr.barshi.db.entity.User</class>
+		<class>org.cghr.barshi.db.entity.Area</class>
 		<class>org.cghr.barshi.db.entity.Team</class>
+		
+		<class>org.cghr.barshi.db.data.entity.UserDataEntity</class>
+		<class>org.cghr.barshi.db.data.entity.AreaDataEntity</class>
+		<class>org.cghr.barshi.db.data.entity.TeamDataEntity</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -29,14 +29,20 @@
 	<persistence-unit name="barshi-dashboard">
 		<description>Barshi Dashboard Entities</description>
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-
-		<class>org.cghr.barshi.db.entity.Area</class>
+		
 		<class>org.cghr.barshi.db.entity.User</class>
+		<class>org.cghr.barshi.db.entity.Area</class>
 		<class>org.cghr.barshi.db.entity.Team</class>
+		
+		<class>org.cghr.barshi.db.reports.entity.ReportsId</class>
+		<class>org.cghr.barshi.db.reports.entity.ReportEntity</class>
+		<class>org.cghr.barshi.db.reports.entity.UserReportsEntity</class>
+		<class>org.cghr.barshi.db.reports.entity.AreaReportsEntity</class>
+		<class>org.cghr.barshi.db.reports.entity.TeamReportsEntity</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/barshi" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/barshi-dashboard" />
 			<property name="javax.persistence.jdbc.user" value="barshi" />
 			<property name="javax.persistence.jdbc.password" value="aLxfKjaaD38Cz4DX" />
 			<property name="openjpa.jdbc.DriverDataSource" value="dbcp" />

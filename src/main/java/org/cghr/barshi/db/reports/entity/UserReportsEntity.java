@@ -1,7 +1,10 @@
 package org.cghr.barshi.db.reports.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
@@ -14,26 +17,33 @@ import org.cghr.barshi.db.entity.User;
 @Entity
 @Table(name = "rep_user")
 public class UserReportsEntity {
-	@Id
-	@Column(name = "id")
-	private Integer id = null;
-	
+	@EmbeddedId
+	private ReportsId id = new ReportsId();
+
 	@Transient
 	private String clearPassword = null;
 
 	@Embedded
 	private User user = new User();
-
+	
+	@Column(name = "isPresent")
+	boolean isPresent = false;
+	
+	@Column(name = "absent_reason")
+	private String absentReason = null;
+	
 	protected UserReportsEntity() {
 		super();
 	}
 
-	public UserReportsEntity(int id) {
-		this.id = id;
+	public UserReportsEntity(int id, Date reportDate, User user) {
+		this.id.setId(id);
+		this.id.setReportDate(reportDate);
+		this.user = user;
 	}
-
-	public Integer getId() {
-		return id;
+	
+	public ReportsId getId() {
+		return this.id;
 	}
 
 	public String getClearPassword() {
@@ -75,16 +85,34 @@ public class UserReportsEntity {
 	public void setRole(String role) {
 		user.setRole(role);
 	}
+	
+	public void setPresent(boolean isPresent) {
+		this.isPresent = isPresent;
+	}
+	
+	public boolean isPresent() {
+		return this.isPresent;
+	}
+	
+	public void setAbsentReason(String absentReason) {
+		this.absentReason = absentReason;
+	}
+	
+	public String getAbsentReason() {
+		return this.absentReason;
+	}
 
 	@Override
 	public int hashCode() {
-		return this.id;
+		return this.id.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof UserReportsEntity && ((UserReportsEntity) obj).getId() == getId()) {
-			return true;
+		if (obj == null) {
+			return false;
+		} else if (obj instanceof UserReportsEntity) {
+			return this.id.equals(((UserReportsEntity) obj).getId());
 		} else {
 			return false;
 		}

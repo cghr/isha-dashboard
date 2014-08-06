@@ -32,7 +32,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.themes.Reindeer;
 
-public class AreaComponents {
+public class AreaComponentWrapper {
 	private Table areaTable = null;
 	
 	public Component getAreaManagementComponent() {

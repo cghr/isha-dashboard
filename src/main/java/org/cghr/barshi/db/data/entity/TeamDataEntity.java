@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 
 import org.cghr.barshi.db.entity.Team;
@@ -33,7 +34,7 @@ public class TeamDataEntity {
 	}, inverseJoinColumns = {
 		@JoinColumn(name = "userId", referencedColumnName = "id")
 	})
-	private HashSet<UserDataEntity> surveyors = null;
+	private Set<UserDataEntity> surveyors = new HashSet<UserDataEntity>();
 	
 	@OneToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "assignment", joinColumns = {
@@ -41,7 +42,12 @@ public class TeamDataEntity {
 	}, inverseJoinColumns = {
 			@JoinColumn(name = "areaId", referencedColumnName = "areaId")
 	})
-	private HashSet<AreaDataEntity> areas = null;
+	private HashSet<AreaDataEntity> areas = new HashSet<AreaDataEntity>();
+	
+	@PostLoad
+	public void setTeamId() {
+		team.setId(this.id);
+	}
 	
 	protected TeamDataEntity() {
 		super();
@@ -57,6 +63,7 @@ public class TeamDataEntity {
 
 	private void setId(Integer id) {
 		this.id = id;
+		team.setId(id);
 	}
 
 	public String getName() {

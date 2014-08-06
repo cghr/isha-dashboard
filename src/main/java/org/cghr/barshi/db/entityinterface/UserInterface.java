@@ -1,6 +1,8 @@
 package org.cghr.barshi.db.entityinterface;
 
 public interface UserInterface {
+	public Integer getId();
+	
 	public void setUsername(String username);
 	
 	public String getUsername();

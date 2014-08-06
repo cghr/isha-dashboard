@@ -31,7 +31,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.themes.Reindeer;
 
-public class SurveyorComponents {
+public class SurveyorComponentWrapper {
 	Table surveyorTable = null;
 
 	public Component getSurveyorManagementComponent() {

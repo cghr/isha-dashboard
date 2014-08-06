@@ -2,11 +2,15 @@ package org.cghr.barshi.db.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 import org.cghr.barshi.db.entityinterface.AreaInterface;
 
 @Embeddable
 public class Area implements AreaInterface {
+	@Transient
+	private Integer id = null;
+	
 	@Column(name = "name")
 	private String name = null;
 
@@ -15,6 +19,14 @@ public class Area implements AreaInterface {
 
 	@Column(name = "pincode")
 	private String pincode = null;
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	@Override
 	public String getName() {

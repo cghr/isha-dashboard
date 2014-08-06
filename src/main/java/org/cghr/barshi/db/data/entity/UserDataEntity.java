@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,13 +24,19 @@ public class UserDataEntity {
 
 	@Embedded
 	private User user = new User();
-
+	
 	protected UserDataEntity() {
 		super();
 	}
 
 	public UserDataEntity(int id) {
 		this.id = id;
+		user.setId(id);
+	}
+	
+	@PostLoad
+	public void setUserId() {
+		user.setId(this.id);
 	}
 
 	public Integer getId() {
@@ -74,6 +81,10 @@ public class UserDataEntity {
 
 	public void setRole(String role) {
 		user.setRole(role);
+	}
+	
+	public User getUser() {
+		return this.user;
 	}
 
 	@Override

@@ -41,13 +41,13 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.themes.Reindeer;
 
-public class TeamComponents {
+public class TeamComponentWrapper {
 	Button saveButton = null;
 	
 	private Set<TeamDataEntity> modifiedTeamSet = new HashSet<TeamDataEntity>();
 	
 	private Table getSurveyorTable(final TeamDataEntity team) {
-		SurveyorComponents surveyorComponents = new SurveyorComponents();
+		SurveyorComponentWrapper surveyorComponents = new SurveyorComponentWrapper();
 		
 		Table surveyorTable = surveyorComponents.getSurveyorTable(team.getSurveyors(), false, false, "name");
 		surveyorTable.setWidth("200px");
@@ -122,7 +122,7 @@ public class TeamComponents {
 	}
 	
 	private Table getAreaTable(final TeamDataEntity team) {
-		AreaComponents areaComponents = new AreaComponents();
+		AreaComponentWrapper areaComponents = new AreaComponentWrapper();
 		
 		Table areaTable = new Table();
 		areaTable = areaComponents.getAreaTable(team.getAreas(), false, false, "id", "name", "landmark");

@@ -12,6 +12,9 @@ public class User implements UserInterface {
 	
 	@Column(name = "username", unique = true)
 	private String username = null;
+	
+	@Transient
+	private Integer id = null;
 
 	@Transient
 	private String clearPassword = null;
@@ -25,11 +28,28 @@ public class User implements UserInterface {
 	@Column(name = "role")
 	private String role = null;
 	
+	public User() {
+		super();
+	}
+	
+	public User(int id) {
+		this.id = id;
+	}
+	
 	@PrePersist
 	private void setPassword() {
 		if (getClearPassword() != null && getClearPassword().length() > 0) {
 			setPassword(getClearPassword());
 		}
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@Override
+	public Integer getId() {
+		return this.id;
 	}
 
 	public String getClearPassword() {

@@ -13,7 +13,7 @@ public class UserDataDAO extends AbstractDatabaseDAO<UserDataEntity> {
 	private static UserDataDAO userDao = null;
 
 	private UserDataDAO() {
-		super();
+		super("barshi-data");
 	}
 
 	public static UserDataDAO getInstance() {
