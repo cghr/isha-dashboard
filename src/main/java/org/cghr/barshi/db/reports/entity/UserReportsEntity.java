@@ -1,12 +1,22 @@
 package org.cghr.barshi.db.reports.entity;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,13 +35,16 @@ public class UserReportsEntity {
 
 	@Embedded
 	private User user = new User();
-	
+
 	@Column(name = "isPresent")
 	boolean isPresent = false;
-	
+
 	@Column(name = "absent_reason")
 	private String absentReason = null;
-	
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "")
+	private Set<EnumerationReportEntity> enumerationReport = new HashSet<EnumerationReportEntity>();
+
 	protected UserReportsEntity() {
 		super();
 	}
@@ -42,6 +55,13 @@ public class UserReportsEntity {
 		this.user = user;
 	}
 	
+	public Collection<EnumerationReportEntity> getEnumerationReportEntity() {
+		Set<EnumerationReportEntity> enumerationReportEntitySet = new HashSet<EnumerationReportEntity>();
+		enumerationReportEntitySet.addAll(enumerationReport);
+		
+		return enumerationReportEntitySet;
+	}
+
 	public ReportsId getId() {
 		return this.id;
 	}
@@ -85,21 +105,25 @@ public class UserReportsEntity {
 	public void setRole(String role) {
 		user.setRole(role);
 	}
-	
+
 	public void setPresent(boolean isPresent) {
 		this.isPresent = isPresent;
 	}
-	
+
 	public boolean isPresent() {
 		return this.isPresent;
 	}
-	
+
 	public void setAbsentReason(String absentReason) {
 		this.absentReason = absentReason;
 	}
-	
+
 	public String getAbsentReason() {
 		return this.absentReason;
+	}
+	
+	public User getSurveyor() {
+		return this.user;
 	}
 
 	@Override

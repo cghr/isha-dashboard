@@ -3,10 +3,15 @@ package org.cghr.barshi.db.reports.entity;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -14,6 +19,7 @@ import javax.persistence.Transient;
 @Table (name = "rep_report")
 public class ReportEntity {
 	@Id
+	@Column(name = "id", columnDefinition="DATE")
 	private Date id = new Date();
 	
 	@Column(name = "isOk")
@@ -24,6 +30,9 @@ public class ReportEntity {
 	
 	@Column(name = "problem")
 	private String problem = null;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "report", fetch = FetchType.EAGER)
+	private Set<TeamReportsEntity> teams = new HashSet<TeamReportsEntity>();
 	
 	protected ReportEntity() {
 		super();
@@ -38,6 +47,17 @@ public class ReportEntity {
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		
 		this.id = cal.getTime();
+	}
+	
+	public Set<TeamReportsEntity> getTeams() {
+		Set<TeamReportsEntity> teamsSet = new HashSet<TeamReportsEntity>();
+		teamsSet.addAll(teams);
+		
+		return teamsSet;
+	}
+	
+	public void addTeam(TeamReportsEntity teamReportsEntity) {
+		teams.add(teamReportsEntity);
 	}
 	
 	public Date getId() {

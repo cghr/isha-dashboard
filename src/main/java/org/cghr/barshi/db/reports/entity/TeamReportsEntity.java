@@ -11,7 +11,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -32,17 +34,17 @@ public class TeamReportsEntity {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "rep_teamuser", joinColumns = {
-		@JoinColumn(name = "teamId", referencedColumnName = "id")
+		@JoinColumn(name = "teamId", referencedColumnName = "id", columnDefinition = "BIGINT(10)")
 	}, inverseJoinColumns = {
-		@JoinColumn(name = "userId", referencedColumnName = "id")
+		@JoinColumn(name = "userId", referencedColumnName = "id", columnDefinition = "BIGINT(10)")
 	})
 	private Set<UserReportsEntity> surveyors = new HashSet<UserReportsEntity>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "rep_assignment", joinColumns = {
-		@JoinColumn(name = "teamId", referencedColumnName = "id")
+		@JoinColumn(name = "teamId", referencedColumnName = "id", columnDefinition = "BIGINT(10)")
 	}, inverseJoinColumns = {
-		@JoinColumn(name = "areaId", referencedColumnName = "id")
+		@JoinColumn(name = "areaId", referencedColumnName = "id", columnDefinition = "BIGINT(10)")
 	})
 	private Set<AreaReportsEntity> areas = new HashSet<AreaReportsEntity>();
 	
@@ -51,14 +53,19 @@ public class TeamReportsEntity {
 	
 	@Column(name = "returnTime")
 	private Date timeOfReturn = null;
+	
+	@ManyToOne
+	@JoinColumn(name = "reportDate", referencedColumnName = "id")
+	private ReportEntity report = null;
 
 	protected TeamReportsEntity() {
 		super();
 	}
 
-	public TeamReportsEntity(int id, Date date) {
+	public TeamReportsEntity(int id, Date date, Team team) {
 		this.id.setId(id);
 		this.id.setReportDate(date);
+		this.team = team;
 	}
 
 	public ReportsId getId() {

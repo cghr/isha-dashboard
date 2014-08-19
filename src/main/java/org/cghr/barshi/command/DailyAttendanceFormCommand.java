@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.cghr.barshi.component.AttendanceComponentWrapper;
+import org.cghr.barshi.component.EnumerationReportComponentWrapper;
+import org.cghr.barshi.component.HealthCampReportComponentWrapper;
+import org.cghr.barshi.component.HealthCheckupReportComponentWrapper;
 import org.cghr.barshi.dao.ReportDAO;
 import org.cghr.barshi.dao.TeamReportsDAO;
 import org.cghr.barshi.db.BarshiEntityManagerFactory;
@@ -66,11 +69,29 @@ public class DailyAttendanceFormCommand implements MenuBar.Command {
 		final AttendanceComponentWrapper attendanceComponentWrapper = new AttendanceComponentWrapper(team, report.getId());
 		Component attendanceComponent = attendanceComponentWrapper.getAttendanceComponent();
 		
-		// TODO: Display the Daily Enumeration report for the current team
+		// Display the Daily Enumeration report for the current team
+		Label enumerationReportHeaderLabel = new Label("Enumeration Report");
+		enumerationReportHeaderLabel.setStyleName(Reindeer.LABEL_H2);
 		
-		// TODO: Display the Daily Health Checkup report for the current team
+		EnumerationReportComponentWrapper enumerationReportComponentWrapper = new EnumerationReportComponentWrapper(report.getId(), null, null, null);
+		Component enumerationReportComponent = enumerationReportComponentWrapper.evaluateEnumerationReportTable();
+		enumerationReportComponent.setSizeUndefined();
+		
+		// Display the Daily Health Checkup report for the current team
+		Label healthCheckupReportHeaderLabel = new Label("Health Checkup Report");
+		healthCheckupReportHeaderLabel.setStyleName(Reindeer.LABEL_H2);
+		
+		HealthCheckupReportComponentWrapper healthCheckupReportComponentWrapper = new HealthCheckupReportComponentWrapper(report.getId(), null, null, null);
+		Component healthCheckupReportComponent = healthCheckupReportComponentWrapper.evaluateHealthCheckupReportTable();
+		healthCheckupReportComponent.setSizeUndefined();
 		
 		// TODO: Display the Daily Progress of Health Camp
+		Label healthCampReportHeaderLabel = new Label("Health Camp Report");
+		healthCampReportHeaderLabel.setStyleName(Reindeer.LABEL_H2);
+		
+		HealthCampReportComponentWrapper healthCampReportComponentWrapper = new HealthCampReportComponentWrapper(report.getId(), null, null, null);
+		Component healthCampReportComponent = healthCampReportComponentWrapper.evaluateHealthCampReportTable();
+		healthCampReportComponent.setSizeUndefined();
 		
 		// TODO: If report does not exist, then evaluate Daily Reports for the current team.
 		
@@ -149,7 +170,8 @@ public class DailyAttendanceFormCommand implements MenuBar.Command {
 					TeamReportsEntity teamReport = attendanceComponentWrapper.getTeamReport();
 					
 					entityManager.persist(teamReport);
-					entityManager.persist(report);
+					report.addTeam(teamReport);
+					entityManager.merge(report);
 					
 					entityManager.detach(teamReport);
 					entityManager.detach(report);
@@ -180,6 +202,18 @@ public class DailyAttendanceFormCommand implements MenuBar.Command {
 		verticalLayout.setComponentAlignment(teamLabel, Alignment.MIDDLE_CENTER);
 		verticalLayout.addComponent(attendanceComponent);
 		verticalLayout.setComponentAlignment(attendanceComponent, Alignment.MIDDLE_CENTER);
+		verticalLayout.addComponent(enumerationReportHeaderLabel);
+		verticalLayout.setComponentAlignment(enumerationReportHeaderLabel, Alignment.MIDDLE_CENTER);
+		verticalLayout.addComponent(enumerationReportComponent);
+		verticalLayout.setComponentAlignment(enumerationReportComponent, Alignment.MIDDLE_CENTER);
+		verticalLayout.addComponent(healthCheckupReportHeaderLabel);
+		verticalLayout.setComponentAlignment(healthCheckupReportHeaderLabel, Alignment.MIDDLE_CENTER);
+		verticalLayout.addComponent(healthCheckupReportComponent);
+		verticalLayout.setComponentAlignment(healthCheckupReportComponent, Alignment.MIDDLE_CENTER);
+		verticalLayout.addComponent(healthCampReportHeaderLabel);
+		verticalLayout.setComponentAlignment(healthCampReportHeaderLabel, Alignment.MIDDLE_CENTER);
+		verticalLayout.addComponent(healthCampReportComponent);
+		verticalLayout.setComponentAlignment(healthCampReportComponent, Alignment.MIDDLE_CENTER);
 		verticalLayout.addComponent(problemLayout);
 		verticalLayout.setComponentAlignment(problemLayout, Alignment.MIDDLE_CENTER);
 		verticalLayout.addComponent(submitButton);

@@ -159,7 +159,7 @@ public class AttendanceComponentWrapper {
 	}
 	
 	private TeamReportsEntity getTeamReports(TeamDataEntity team_data) {
-		TeamReportsEntity teamReportsEntity = new TeamReportsEntity(team_data.getId(), date);
+		TeamReportsEntity teamReportsEntity = new TeamReportsEntity(team_data.getId(), date, team_data.getTeam());
 		
 		for(UserDataEntity user_data : team_data.getSurveyors()) {
 			teamReportsEntity.addSurveyor(user_data.getUser());

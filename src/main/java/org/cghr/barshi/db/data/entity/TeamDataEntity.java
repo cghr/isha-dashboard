@@ -109,4 +109,8 @@ public class TeamDataEntity {
 		
 		return areaSet;
 	}
+	
+	public Team getTeam() {
+		return this.team;
+	}
 }

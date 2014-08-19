@@ -24,7 +24,7 @@ public class Team implements TeamInterface {
 		this.id = id;
 	}
 	
-	public void setId(int i) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	

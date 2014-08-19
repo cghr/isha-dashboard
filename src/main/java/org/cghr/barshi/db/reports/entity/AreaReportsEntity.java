@@ -59,7 +59,7 @@ public class AreaReportsEntity {
 		area.setPincode(pincode);
 	}
 	
-	private Area getArea() {
+	public Area getArea() {
 		return area;
 	}
 	

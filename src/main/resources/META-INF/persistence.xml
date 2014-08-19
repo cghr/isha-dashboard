@@ -2,8 +2,8 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
- http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
-	version="1.0">
+ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
 
 	<persistence-unit name="barshi-data">
 		<description>Barshi Data Entities</description>
@@ -39,6 +39,12 @@
 		<class>org.cghr.barshi.db.reports.entity.UserReportsEntity</class>
 		<class>org.cghr.barshi.db.reports.entity.AreaReportsEntity</class>
 		<class>org.cghr.barshi.db.reports.entity.TeamReportsEntity</class>
+		
+		<class>org.cghr.barshi.db.reports.entity.EnumerationReportEntity</class>
+		<class>org.cghr.barshi.db.reports.entity.HealthCheckupReportEntity</class>
+		<class>org.cghr.barshi.db.reports.entity.HealthCampReportEntity</class>
+		
+		<class>org.cghr.barshi.db.reports.entity.EmbeddedReportsId</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
