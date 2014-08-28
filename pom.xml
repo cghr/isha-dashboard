@@ -257,13 +257,13 @@
 							<goal>enhance</goal>
 						</goals>
 					</execution>
-                                        <execution>
-                                                <id>sql</id>
-                                                <phase>process-classes</phase>
-                                                <goals> 
-                                                        <goal>sql</goal>
-                                                </goals>
-                                        </execution>
+					<execution>
+						<id>sql</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>sql</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

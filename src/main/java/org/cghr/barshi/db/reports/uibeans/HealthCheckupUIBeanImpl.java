@@ -83,6 +83,8 @@ public class HealthCheckupUIBeanImpl implements HealthCheckupUIBeanInterface {
 
 	@Override
 	public String getNoOfHouseholdsVisited() {
+		// TODO: Retrieve information from hcVisit;
+		
 		if(healthCheckupReport.getNoOfHouseholdsVisited() != null) {
 			return healthCheckupReport.getNoOfHouseholdsVisited().toString();
 		} else {
@@ -146,6 +148,8 @@ public class HealthCheckupUIBeanImpl implements HealthCheckupUIBeanInterface {
 
 	@Override
 	public String getNoOfPendingInterviews() {
+		// Check for field memberId in invitationCard table
+		
 		if(healthCheckupReport.getNoOfPendingInterviews() != null) {
 			return healthCheckupReport.getNoOfPendingInterviews().toString();
 		} else {

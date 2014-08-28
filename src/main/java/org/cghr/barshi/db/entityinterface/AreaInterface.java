@@ -14,4 +14,8 @@ public interface AreaInterface {
 	public String getPincode();
 
 	public void setPincode(String pincode);
+	
+	public String getDistrictId();
+	
+	public void setDistrictId(String districtId);
 }

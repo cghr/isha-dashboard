@@ -26,7 +26,7 @@ public class DashboardHomeUI extends UI {
 	private Table areaTable = null;
 	private Table surveyorTable = null;
 
-	@WebServlet(value = "/*", asyncSupported = true)
+	@WebServlet(value = "/ui/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = DashboardHomeUI.class, widgetset = "org.cghr.barshi.AppWidgetSet")
 	public static class Servlet extends VaadinServlet {}
 
@@ -48,7 +48,7 @@ public class DashboardHomeUI extends UI {
 			MenuBar.MenuItem teamItem = teamMenuItem.addItem(team.getName(), null);
 			Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("IST"));
 			Date date = calendar.getTime();
-			teamItem.addItem("Daily Attendance Form", new DailyAttendanceFormCommand(team, calendar.getTime()));
+			teamItem.addItem("Daily Attendance Form", new DailyAttendanceFormCommand(team, date));
 		}
 
 		setContent(menuBar);

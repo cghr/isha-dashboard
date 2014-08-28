@@ -20,6 +20,9 @@ public class Area implements AreaInterface {
 	@Column(name = "pincode")
 	private String pincode = null;
 	
+	@Column(name = "districtId")
+	private String districtId = null;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -56,5 +59,15 @@ public class Area implements AreaInterface {
 	@Override
 	public void setPincode(String pincode) {
 		this.pincode = pincode;
+	}
+
+	@Override
+	public String getDistrictId() {
+		return this.districtId;
+	}
+
+	@Override
+	public void setDistrictId(String districtId) {
+		this.districtId = districtId;
 	}
 }

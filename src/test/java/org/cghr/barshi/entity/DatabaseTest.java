@@ -86,43 +86,4 @@ public class DatabaseTest {
 
 		Assert.assertEquals(expectedUser.getName(), actualUser.getName());
 	}
-	
-	@Test
-	public void testTeamJPA() {
-		List<TeamDataEntity> teamList = TeamDataDAO.getInstance().getAllTeams();
-		
-		Assert.assertNotNull(teamList);
-		Assert.assertNotEquals(teamList.size(), 0);
-		
-		for(TeamDataEntity team : teamList) {
-			Set<UserDataEntity> surveyors = team.getSurveyors();
-			System.out.println("Team: " + team.getName());
-			for(UserDataEntity surveyor : surveyors) {
-				System.out.println("|- " + surveyor.getUsername());
-			}
-			
-			Set <AreaDataEntity> areas = team.getAreas();
-			System.out.println("Team: " + team.getName());
-			for(AreaDataEntity area : areas) {
-				System.out.println("|- " + area.getName());
-			}
-		}
-	}
-	
-	@After
-	public void cleanup() {
-		EntityManager entityManager = BarshiEntityManagerFactory.getInstance().createDataEntityManager();
-		
-		EntityTransaction transaction = entityManager.getTransaction();
-		
-		transaction.begin();
-		
-		UserDataEntity user = entityManager.find(UserDataEntity.class, userId);
-		
-		entityManager.remove(user);
-		
-		transaction.commit();
-		
-		entityManager.close();
-	}
 }

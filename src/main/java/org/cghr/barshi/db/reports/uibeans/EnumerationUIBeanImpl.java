@@ -75,26 +75,32 @@ public class EnumerationUIBeanImpl implements EnumerationUIBeanInterface {
 	public String getNoOfPhysicalDwellingsVisited() {
 		Integer no = enumerationReport.getNoOfPhysicalDwellingsVisited();
 		
-		if(no == null) {
+		/*if(no == null) {
 			return "-";
 		} else {
 			return no.toString();
-		}
+		}*/
+		
+		return "TBD";
 	}
 
 	@Override
 	public String getNoOfPhysicalDwellingsAdded() {
 		Integer no = enumerationReport.getNoOfPhysicalDwellingsAdded();
 		
-		if(no == null) {
+		/*if(no == null) {
 			return "-";
 		} else {
 			return no.toString();
-		}
+		}*/
+		
+		return "TBD";
 	}
 
 	@Override
 	public String getNoOfHouseholdsVisited() {
+		// TODO: Retrieve information from enumVisits;
+		
 		Integer no = enumerationReport.getNoOfHouseholdsVisited();
 		
 		if(no == null) {
@@ -141,11 +147,13 @@ public class EnumerationUIBeanImpl implements EnumerationUIBeanInterface {
 	public String getNoOfPhysicalDwellingsRevisited() {
 		Integer no = enumerationReport.getNoOfPhysicalDwellingsRevisited();
 		
-		if(no == null) {
+		/*if(no == null) {
 			return "-";
 		} else {
 			return no.toString();
-		}
+		}*/
+		
+		return "TBD";
 	}
 
 	@Override
